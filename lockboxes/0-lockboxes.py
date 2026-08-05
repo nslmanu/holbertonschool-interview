@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Module that determines if all locked boxes can be opened."""
+"""stop si tout ne peut pas etre ouvert"""
 
 
 def canUnlockAll(boxes):
-    """Return True if all boxes can be opened, else False."""
+    """stop si tout ne peut pas etre ouvert"""
     ouvertes = set([0])
     listpeutouvrir = list(boxes[0])
 
