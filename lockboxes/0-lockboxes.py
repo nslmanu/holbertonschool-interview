@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """stop si tout ne peut pas etre ouvert"""
 
 
