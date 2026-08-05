@@ -1,12 +1,15 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""Module that determines if all locked boxes can be opened."""
 
-canUnlockAll = __import__('0-lockboxes').canUnlockAll
 
-boxes = [[1], [2], [3], [4], []]
-print(canUnlockAll(boxes))
+def canUnlockAll(boxes):
+    """Return True if all boxes can be opened, else False."""
+    ouvertes = set([0])
+    listpeutouvrir = list(boxes[0])
 
-boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-print(canUnlockAll(boxes))
+    for key in listpeutouvrir:
+        if key < len(boxes) and key not in ouvertes:
+            ouvertes.add(key)
+            listpeutouvrir.extend(boxes[key])
 
-boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-print(canUnlockAll(boxes))
+    return len(ouvertes) == len(boxes)
