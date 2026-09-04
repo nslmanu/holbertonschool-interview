@@ -1,22 +1,24 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * list_len - counts the number of nodes in a listint_t list
- * @head: pointer to the head of the list
+ * reverse_list - reverses a singly linked list in place
+ * @head: pointer to the first node of the list to reverse
  *
- * Return: the number of nodes
+ * Return: pointer to the new head of the reversed list
  */
-static size_t list_len(listint_t *head)
+static listint_t *reverse_list(listint_t *head)
 {
-	size_t n = 0;
+	listint_t *prev = NULL;
+	listint_t *next = NULL;
 
 	while (head != NULL)
 	{
-		n++;
-		head = head->next;
+		next = head->next;
+		head->next = prev;
+		prev = head;
+		head = next;
 	}
-	return (n);
+	return (prev);
 }
 
 /**
@@ -27,34 +29,36 @@ static size_t list_len(listint_t *head)
  */
 int is_palindrome(listint_t **head)
 {
-	size_t n, i;
-	int *values;
-	listint_t *current;
+	listint_t *slow, *fast, *second_half, *first_half, *temp;
+	int result = 1;
 
-	if (head == NULL || *head == NULL)
+	if (head == NULL || *head == NULL || (*head)->next == NULL)
 		return (1);
 
-	n = list_len(*head);
-	values = malloc(sizeof(int) * n);
-	if (values == NULL)
-		return (0);
-
-	current = *head;
-	for (i = 0; i < n; i++)
+	slow = *head;
+	fast = *head;
+	while (fast->next != NULL && fast->next->next != NULL)
 	{
-		values[i] = current->n;
-		current = current->next;
+		slow = slow->next;
+		fast = fast->next->next;
 	}
 
-	for (i = 0; i < n / 2; i++)
+	second_half = reverse_list(slow->next);
+	first_half = *head;
+
+	temp = second_half;
+	while (temp != NULL)
 	{
-		if (values[i] != values[n - 1 - i])
+		if (first_half->n != temp->n)
 		{
-			free(values);
-			return (0);
+			result = 0;
+			break;
 		}
+		first_half = first_half->next;
+		temp = temp->next;
 	}
 
-	free(values);
-	return (1);
+	slow->next = reverse_list(second_half);
+
+	return (result);
 }
